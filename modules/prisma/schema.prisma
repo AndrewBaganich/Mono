@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  clientId    String @id
+  name        String
+  webHookUrl  String
+  permissions String
+  accounts    Accounts[] 
+  jars        Jars[] 
+  transactions Transactions[]
+}
+
+model Accounts {
+  id           String @id
+  sendId       String
+  balance      Int
+  creditLimit  Int
+  type         String
+  currencyCode Int
+  cashbackType String
+  maskedPan    Json
+  iban         String
+  user         User   @relation( fields: [userId], references: [clientId])
+  userId       String 
+}
+
+model Jars {
+  id           String @id
+  sendId       String
+  title        String
+  description  String
+  currencyCode Int
+  balance      Int
+  goal         Int
+  user         User   @relation( fields: [userId], references: [clientId])
+  userId       String 
+}
+
+model Transactions {
+  transactionId String @id
+  user User   @relation( fields: [userId], references: [clientId])
+  userId String
+  time Int
+  description String
+  mcc Int
+  originalMcc Int
+  amount Int
+  operationAmount Int
+  currencyCode Int
+  commissionRate Int
+  cashbackAmount Int
+  balance Int
+  hold Boolean
+  receiptId String
+  comment String
+  invoiceId String
+  counterEdrpou String
+  counterIban String
+  counterName String
+}
+
+model Currency {
+  id Int @id @default(autoincrement())
+  currencyCodeA Int 
+  currencyCodeB Int 
+  date Int
+  rateBuy Float
+  rateCross Float
+  rateSell Float
+}
+
+

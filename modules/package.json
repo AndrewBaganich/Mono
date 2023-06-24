@@ -1,0 +1,22 @@
+{
+  "type": "module",
+  "name": "modules",
+  "version": "1.0.0",
+  "description": "",
+  "main": "const.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^4.15.0",
+    "axios": "^1.4.0",
+    "currency-codes": "^2.1.0",
+    "fetch": "^1.1.0",
+    "luxon": "^3.3.0"
+  },
+  "devDependencies": {
+    "prisma": "^4.15.0"
+  }
+}
