@@ -54,7 +54,6 @@ function convertFromUah(currencies, uahAmount, toCurrency) {
   return convertedAmount;
 }
 
-
 export function getRateIfExisting(dataEntry, from, to) {
   if (dataEntry.currencyCodeA === from && dataEntry.currencyCodeB === to) {
     return getRate(dataEntry, from, to);

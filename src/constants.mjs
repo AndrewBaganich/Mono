@@ -1,12 +1,16 @@
+import MonobankService from "./monobankClient/monobankRequestService";
+
+const mono = new MonobankService();
+
 const monoUrls = {
     monoUrl : 'https://api.monobank.ua',
-    monoToken : "ucO1XCz80H6l3p7oI6VPk4JCkIvbPlsIWgVN2OUZnpjo",
+    monoToken : 'Token here ' + "https://api.monobank.ua/",
 };
 
 monoUrls.userUrl = `${monoUrls.monoUrl}/personal/client-info`;
 monoUrls.exchangeUrl = `${monoUrls.monoUrl}/bank/currency`;
 monoUrls.turnoverUrl = `${monoUrls.monoUrl}/personal/statement`;
-monoUrls.mainCardId = 'gHNFrGUVnK1qWI9d2CTEGQ';
+monoUrls.mainCardId = await mono.clientInformation(monoUrls.userUrl).accounts[0].id;
 
-const mainUserId = '9adFH8M5Tr'
+const mainUserId = await mono.clientInformation(monoUrls.userUrl).clientId
 export default { monoUrls, mainUserId };

@@ -1,12 +1,13 @@
 import fetch from 'node-fetch';
-import {monoUrls} from '../constants.mjs'
+// import {monoUrls} from '../constants.mjs'
+import { myConst } from '../../myConsts';
 
 export async function monobankRequest(url, method = 'GET') {
     try {
         const options = {
             method: method,
             headers: {
-                'X-token': monoUrls.monoToken
+                'X-token': myConst.monoToken //monoUrls.monoToken
             }
         };
         

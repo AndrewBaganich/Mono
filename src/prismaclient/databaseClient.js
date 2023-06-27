@@ -1,11 +1,8 @@
 import { monoUrls } from './constants.mjs';
-import { monobankServise } from './monobankRequestService'
 import { PrismaClient } from '@prisma/client';
 import { monobankRequest } from './monoRequest.mjs';
 
-
 const prisma = new PrismaClient();
-
 
 const clientInfo = await monobank.clientInformation(monoUrls.userUrl);
 const transactions = await monobank.cardTurnover(monoUrls.turnoverUrl, monoUrls.mainCardId);
@@ -34,7 +31,6 @@ function dataProcessing (data){
     counterName: transaction.counterName || ''
   }))
 }
-
 
 async function addUserInfoToDatabase(userData, transactionsData) {
   try {
