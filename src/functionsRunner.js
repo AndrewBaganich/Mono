@@ -1,11 +1,8 @@
-import convertCurrency from "./exchangeLogic.mjs";
 import mainUserId from './constants.mjs';
 import {monoUrls} from './constants.mjs';
 import DatabaseHandler from "./prismaclient/getFromData.mjs";
 import MonobankService from "./monobankClient/monobankRequestService";
-
-
-
+import convertCurrency from './exchangeLogic.js';
 
 const databasehandler = new DatabaseHandler();
 
@@ -21,3 +18,4 @@ const turnoverLastWeek = await monoService.cardTurnoverLastWeek(monoUrls.turnove
 console.log( await monoService.clientInformation(monoUrls.userUrl));
 console.log(await convertCurrency(turnoverLastWeek,'UAH', 'USD'));
 console.log( await monoService.userBalanceInCurr('USD', monoUrls.userUrl));
+console.log(await convertCurrency(100,'UAH','USD'))

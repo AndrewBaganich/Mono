@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { DateTime } from 'luxon';
+import { sumOfTransactions } from '../secondaryFunctions.js';
 
 const prisma = new PrismaClient();
 
@@ -8,7 +9,7 @@ class DatabaseHandler {
       const curr = await prisma.currency.findMany();
       return curr;
     }
-  
+
     async getUserBalanceByUserId(id) {
       const accounts = await prisma.accounts.findMany({
         where: {
@@ -30,21 +31,14 @@ class DatabaseHandler {
           userId: id,
         },
       });
-  
-      const turnover = transactions.reduce((acc, element) => {
-        if (element.amount < 0) {
-          return acc + element.amount * -1;
-        }
-        return acc + element.amount;
-      }, 0);
-  
+
+      const turnover = sumOfTransactions(transactions)
       return turnover / 100;
     }
   
     async getTurnoverByUserIdInTime(id, from, to) {
       const unixTimeFrom = DateTime.fromISO(from).toUnixInteger();
       const unixTimeTo = DateTime.fromISO(to).toUnixInteger();
-  
       const transactions = await prisma.transactions.findMany({
         where: {
           userId: id,
@@ -54,14 +48,7 @@ class DatabaseHandler {
           },
         },
       });
-  
-      const turnover = transactions.reduce((acc, element) => {
-        if (element.amount < 0) {
-          return acc + element.amount * -1;
-        }
-        return acc + element.amount;
-      }, 0);
-  
+      const turnover = sumOfTransactions(transactions)
       return turnover / 100;
     }
 }

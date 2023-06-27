@@ -1,11 +1,10 @@
-import MonobankService from './monobankRequestService.mjs';
 import { monoUrls } from './constants.mjs';
-
+import { monobankServise } from './monobankRequestService'
 import { PrismaClient } from '@prisma/client';
 import { monobankRequest } from './monoRequest.mjs';
 
+
 const prisma = new PrismaClient();
-const monobank = new MonobankService();
 
 
 const clientInfo = await monobank.clientInformation(monoUrls.userUrl);
@@ -67,8 +66,6 @@ async function addUserInfoToDatabase(userData, transactionsData) {
   }
 }
 
-addUserInfoToDatabase(clientInfo, transactions);
-
 async function addCurrencyDataToDatabase(currData) {
   try {
     await prisma.currency.createMany({
@@ -79,6 +76,7 @@ async function addCurrencyDataToDatabase(currData) {
   }
 }
 
+addUserInfoToDatabase(clientInfo, transactions);
 addCurrencyDataToDatabase(currencyData);
 
 

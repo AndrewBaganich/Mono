@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
 import { monobankRequest} from "./monoRequest.mjs";
 import covertCurrency from '../exchangeLogic.mjs'
+import { sumOfTransactions } from '../secondaryFunctions';
 
 class MonobankService {
     async getUserBalanceMainCard(userUrl) {
@@ -12,12 +13,7 @@ class MonobankService {
     async cardTurnoverLastWeek(turnoverUrl, id) {
       let oneWeekAgoUnixTime = DateTime.now().minus({ days: 7 }).toUnixInteger();
       let response = await monobankRequest(turnoverUrl + `/${id}/${oneWeekAgoUnixTime}/`);
-      let turnover = response.reduce((accum, element) => {
-        if (element.amount < 0) {
-          return accum + element.amount * -1;
-        }
-        return accum + element.amount;
-      }, 0);
+      let turnover = sumOfTransactions(response)
       return turnover / 100;
     }
 
